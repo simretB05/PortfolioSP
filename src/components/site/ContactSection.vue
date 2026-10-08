@@ -13,7 +13,7 @@
           </li>
           <li>
             <i class="mdi mdi-linkedin"></i>
-            <a :href="profile.linkedin" target="_blank" rel="noopener">linkedin.com/in/simret-paulos</a>
+            <a :href="profile.linkedin" target="_blank" rel="noopener">linkedin.com/in/simret-webdev</a>
           </li>
           <li>
             <i class="mdi mdi-github"></i>

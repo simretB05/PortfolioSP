@@ -8,7 +8,7 @@ export const profile = {
   location: "Grande Prairie, AB",
   // Leave empty to hide the email line and point "Get in touch" at LinkedIn.
   email: "",
-  linkedin: "https://www.linkedin.com/in/simret-paulos-45b42b10b/",
+  linkedin: "https://www.linkedin.com/in/simret-webdev/",
   github: "https://github.com/simretB05",
   resume: "/images/SimretPaulosResume.pdf",
 };

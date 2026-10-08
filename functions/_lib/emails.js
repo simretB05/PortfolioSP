@@ -23,7 +23,7 @@ const RECENT_WORK = [
   { name: "GP Storage Solutions", url: "https://gpstoragesolutions.ca" },
 ];
 
-const LINKEDIN = "https://www.linkedin.com/in/simret-paulos-45b42b10b/";
+const LINKEDIN = "https://www.linkedin.com/in/simret-webdev/";
 
 export function escapeHtml(text) {
   return String(text).replace(

@@ -70,7 +70,7 @@ export default {
 
     // Updated method to open links in a new tab
     goToLinkedIn() {
-      window.open("https://www.linkedin.com/in/simret-paulos-45b42b10b/", "_blank");
+      window.open("https://www.linkedin.com/in/simret-webdev/", "_blank");
     },
 
     goToGitHub() {
