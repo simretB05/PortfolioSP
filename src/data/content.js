@@ -53,7 +53,12 @@ export const featuredWork = [
 export const about = {
   eyebrow: "About me",
   heading: ["The woman", "behind the work."],
-  text: "I'm Simret — a web developer and digital marketing specialist who turns ideas into functional, beautiful digital experiences. My background in mechanical engineering shapes how I solve problems: methodically, practically, and with the right technology for the job.",
+  // One string per paragraph.
+  text: [
+    "I'm Simret — a web developer and cloud engineer who turns ideas into functional, beautiful digital experiences. My background in mechanical engineering shapes how I solve problems: methodically, practically, and with the right technology for the job.",
+    "Over the past year I've gone from learning AI to shipping it. I built a production AI assistant on AWS Bedrock that answers customer questions from a company's own documents, and I run the cloud infrastructure behind it.",
+    "Next, I'm going deeper into fine-tuning and AI-powered tools for small businesses — helping local companies use AI in practical ways that save time and bring in customers.",
+  ],
   signature: "Grateful · Focused · Building",
   photo: "/images/about-portrait.webp",
 };
@@ -88,7 +93,7 @@ export const journey = {
   steps: [
     { icon: "mdi-cog-outline", title: "Mechanical Engineering", detail: "BSc" },
     { icon: "mdi-laptop", title: "Web Development", detail: "Full Stack & Cloud" },
-    { icon: "mdi-cloud-outline", title: "AWS / Cloud", detail: "Cloud Practitioner (CCP)" },
+    { icon: "mdi-cloud-outline", title: "AWS / Cloud", detail: "Solutions Architect – Associate" },
     { icon: "mdi-brain", title: "AI", detail: "Bedrock, RAG, Fine-tuning" },
   ],
 };

@@ -5,7 +5,7 @@
       <h2 class="serif-heading">
         {{ about.heading[0] }}<br />{{ about.heading[1] }}
       </h2>
-      <p class="body-text about__text">{{ about.text }}</p>
+      <p v-for="(para, i) in about.text" :key="i" class="body-text about__text">{{ para }}</p>
       <p class="about__signature">{{ about.signature }}</p>
       <a :href="profile.resume" target="_blank" rel="noopener" class="about__resume">
         Download resume <i class="mdi mdi-arrow-down"></i>
@@ -57,6 +57,10 @@ export default {
 
 .about__text {
   margin-top: 22px;
+}
+
+.about__text + .about__text {
+  margin-top: 14px;
 }
 
 .about__signature {
