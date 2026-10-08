@@ -9,5 +9,5 @@ compatibility_date = "2026-10-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "simret-portfolio-messages"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "68de5a49-6a6f-4ae4-bcc3-28d9c0be372b"
 migrations_dir = "migrations"
