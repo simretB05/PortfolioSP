@@ -1,54 +1,62 @@
 <template>
-  <div class="main-home">
-    <nav-bar-menu></nav-bar-menu>
-
-    <about-page id="about" />
-    <projects-page id="projects" />
-    <skill-page id="skills" />
-    <contact-page id="contact" />
-    <footer-nav class="footer"></footer-nav>
+  <div class="home">
+    <site-nav />
+    <main>
+      <hero-section />
+      <work-section />
+      <about-section />
+      <journey-section />
+      <exploring-section />
+    </main>
+    <contact-section />
   </div>
 </template>
 
 <script>
-import AboutPage from "@/views/AboutPage.vue";
-import SkillPage from "@/views/SkillPage.vue";
-import ContactPage from "@/views/ContactPage.vue";
-import ProjectsPage from "@/views/ProjectsPage.vue";
-import NavBarMenu from "@/components/utils/NavBarMenu.vue";
-import FooterNav from "@/components/utils/FooterNav.vue";
+import SiteNav from "@/components/site/SiteNav.vue";
+import HeroSection from "@/components/site/HeroSection.vue";
+import WorkSection from "@/components/site/WorkSection.vue";
+import AboutSection from "@/components/site/AboutSection.vue";
+import JourneySection from "@/components/site/JourneySection.vue";
+import ExploringSection from "@/components/site/ExploringSection.vue";
+import ContactSection from "@/components/site/ContactSection.vue";
+import { profile } from "@/data/content";
 
 export default {
   components: {
-    AboutPage,
-    ContactPage,
-    ProjectsPage,
-    SkillPage,
-    NavBarMenu,
-    FooterNav,
+    SiteNav,
+    HeroSection,
+    WorkSection,
+    AboutSection,
+    JourneySection,
+    ExploringSection,
+    ContactSection,
+  },
+  metaInfo() {
+    const baseUrl = "https://portfolio.simret.codes";
+    const title = `${profile.name} — Web Developer & AI`;
+    return {
+      title,
+      meta: [
+        { name: "description", content: profile.tagline },
+        { property: "og:title", content: title },
+        { property: "og:description", content: profile.tagline },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: baseUrl },
+        { property: "og:image", content: `${baseUrl}/images/website_image.png` },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: profile.tagline },
+        { name: "twitter:image", content: `${baseUrl}/images/website_image.png` },
+      ],
+    };
   },
 };
 </script>
 
 <style scoped>
-.main-home {
-  width: 100%;
-  display: grid;
-  place-items: center;
-  font-family: "Roboto";
-  padding: 0;
-  min-height: 80vh;
-  transition: background-color 0.3s ease;
-}
-
-#about,
-#projects,
-#contact,
-#skills {
-  min-height: 20vh;
-  margin-top: 40px;
-}
-.footer {
-  margin-top: 43px;
+.home {
+  min-height: 100vh;
+  overflow-x: clip;
 }
 </style>
