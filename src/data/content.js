@@ -103,5 +103,5 @@ export const exploring = {
 export const contact = {
   eyebrow: "Let's connect",
   heading: ["Have a project", "in mind?"],
-  text: "I'm always open to discussing new ideas, collaborations and opportunities to build something great.",
+  text: "I'm always open to discussing new ideas, collaborations and opportunities to build something great. Send me a message and I'll get back to you by email or phone.",
 };

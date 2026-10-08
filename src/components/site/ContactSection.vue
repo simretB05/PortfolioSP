@@ -9,29 +9,30 @@
         <p class="eyebrow">{{ contact.eyebrow }}</p>
         <h2 class="serif-heading">{{ contact.heading[0] }}<br />{{ contact.heading[1] }}</h2>
         <p class="body-text contact__text">{{ contact.text }}</p>
-        <a :href="primaryLink" :target="profile.email ? null : '_blank'" rel="noopener" class="contact__btn">
-          Get in touch <i class="mdi mdi-arrow-right"></i>
-        </a>
+
+        <ul class="contact__details">
+          <li v-if="profile.email">
+            <i class="mdi mdi-email-outline"></i>
+            <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
+          </li>
+          <li>
+            <i class="mdi mdi-linkedin"></i>
+            <a :href="profile.linkedin" target="_blank" rel="noopener">linkedin.com/in/simret-paulos</a>
+          </li>
+          <li>
+            <i class="mdi mdi-github"></i>
+            <a :href="profile.github" target="_blank" rel="noopener">github.com/simretB05</a>
+          </li>
+          <li>
+            <i class="mdi mdi-map-marker-outline"></i>
+            <span>{{ profile.location }}</span>
+          </li>
+        </ul>
       </div>
 
-      <ul class="contact__details" v-scrollanimation="'reveal'">
-        <li v-if="profile.email">
-          <i class="mdi mdi-email-outline"></i>
-          <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
-        </li>
-        <li>
-          <i class="mdi mdi-linkedin"></i>
-          <a :href="profile.linkedin" target="_blank" rel="noopener">linkedin.com/in/simret-paulos</a>
-        </li>
-        <li>
-          <i class="mdi mdi-github"></i>
-          <a :href="profile.github" target="_blank" rel="noopener">github.com/simretB05</a>
-        </li>
-        <li>
-          <i class="mdi mdi-map-marker-outline"></i>
-          <span>{{ profile.location }}</span>
-        </li>
-      </ul>
+      <div class="contact__form" v-scrollanimation="'reveal'">
+        <contact-form />
+      </div>
     </div>
 
     <footer class="footer">
@@ -45,16 +46,13 @@
 </template>
 
 <script>
+import ContactForm from "@/components/site/ContactForm.vue";
 import { contact, profile } from "@/data/content";
 
 export default {
+  components: { ContactForm },
   data() {
     return { contact, profile, year: new Date().getFullYear() };
-  },
-  computed: {
-    primaryLink() {
-      return profile.email ? `mailto:${profile.email}` : profile.linkedin;
-    },
   },
 };
 </script>
@@ -66,7 +64,7 @@ export default {
 
 .contact__grid {
   display: grid;
-  grid-template-columns: minmax(180px, 0.7fr) 1.3fr 1fr;
+  grid-template-columns: minmax(180px, 0.6fr) 1fr 1.25fr;
   gap: 48px;
   align-items: center;
   padding-right: var(--gutter);
@@ -106,38 +104,12 @@ export default {
   margin-top: 18px;
 }
 
-.contact__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 28px;
-  padding: 12px 26px;
-  border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.contact__btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-
-.contact__btn i {
-  transition: transform 0.25s ease;
-}
-
-.contact__btn:hover i {
-  transform: translateX(4px);
+.contact__form {
+  padding: 56px 0;
 }
 
 .contact__details {
-  margin: 0;
+  margin: 32px 0 0;
   padding: 0;
   list-style: none;
   display: grid;
@@ -198,8 +170,15 @@ export default {
 
 @media (max-width: 1000px) {
   .contact__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 0;
     padding: 0 var(--gutter) 56px;
+  }
+  .contact__pitch {
+    padding-bottom: 8px;
+  }
+  .contact__form {
+    padding-top: 24px;
   }
   .contact__image {
     display: none;
@@ -207,10 +186,6 @@ export default {
 }
 
 @media (max-width: 680px) {
-  .contact__grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
   .footer {
     flex-direction: column;
     text-align: center;

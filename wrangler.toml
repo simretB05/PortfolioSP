@@ -1,0 +1,4 @@
+# Cloudflare Pages project settings (used by `wrangler pages dev` and deploys).
+name = "simret-portfolio"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
