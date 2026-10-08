@@ -33,7 +33,7 @@ export default {
     ContactSection,
   },
   metaInfo() {
-    const baseUrl = "https://portfolio.simret.codes";
+    const baseUrl = "https://simretpaulos.com";
     const title = `${profile.name} — Web Developer & AI`;
     return {
       title,
