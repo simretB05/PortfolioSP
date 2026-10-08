@@ -20,7 +20,6 @@ import AboutSection from "@/components/site/AboutSection.vue";
 import JourneySection from "@/components/site/JourneySection.vue";
 import ExploringSection from "@/components/site/ExploringSection.vue";
 import ContactSection from "@/components/site/ContactSection.vue";
-import { profile } from "@/data/content";
 
 export default {
   components: {
@@ -31,25 +30,6 @@ export default {
     JourneySection,
     ExploringSection,
     ContactSection,
-  },
-  metaInfo() {
-    const baseUrl = "https://simretpaulos.com";
-    const title = `${profile.name} — Web Developer & AI`;
-    return {
-      title,
-      meta: [
-        { name: "description", content: profile.tagline },
-        { property: "og:title", content: title },
-        { property: "og:description", content: profile.tagline },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: baseUrl },
-        { property: "og:image", content: `${baseUrl}/images/website_image.png` },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: profile.tagline },
-        { name: "twitter:image", content: `${baseUrl}/images/website_image.png` },
-      ],
-    };
   },
 };
 </script>
