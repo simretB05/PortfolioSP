@@ -21,6 +21,18 @@ export const featuredWork = [
     link: "https://ior.ca",
   },
   {
+    title: "Edward's Factory Outlet",
+    tags: ["Shopify", "UX", "E-commerce"],
+    image: "/images/work-edwards.webp",
+    link: "https://edwardsfactory.ca",
+  },
+  {
+    title: "SK Lighting Solutions",
+    tags: ["Web Development", "Vite", "Lead Generation"],
+    image: "/images/work-sklighting.webp",
+    link: "https://sklightingsolutions.ca",
+  },
+  {
     title: "GP Storage Solutions",
     tags: ["Web Development", "SEO", "Local Business"],
     image: "/images/work-gpstorage.webp",
