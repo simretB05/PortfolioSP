@@ -1,15 +1,15 @@
 // Cloudflare Pages Function: POST /api/contact
 //
 // Receives the contact form, checks it is a real person (Turnstile), stores the
-// message in Supabase and emails it through Resend.
+// message in Cloudflare D1 and emails it through Resend.
 //
+// Bindings (wrangler.toml):
+//   DB                     D1 database with the contact_messages table (migrations/)
 // Secrets / variables (Cloudflare Pages → Settings → Variables and Secrets):
 //   TURNSTILE_SECRET_KEY   required
 //   RESEND_API_KEY         required
 //   CONTACT_TO_EMAIL       required – inbox that receives messages
 //   CONTACT_FROM_EMAIL     optional – defaults to contact@simretpaulos.com (must be a Resend-verified domain)
-//   SUPABASE_URL           optional – e.g. https://xxxx.supabase.co
-//   SUPABASE_SERVICE_KEY   optional – Supabase secret/service_role key (server side only!)
 //   ALLOWED_ORIGINS        optional – extra comma-separated origins, e.g. http://localhost:8080 for local dev
 
 const MAX_BODY_BYTES = 10 * 1024;
@@ -75,22 +75,19 @@ function escapeHtml(text) {
   return text.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 }
 
-async function saveToSupabase(fields, ip, env) {
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return false;
-  const headers = {
-    apikey: env.SUPABASE_SERVICE_KEY,
-    "Content-Type": "application/json",
-    Prefer: "return=minimal",
-  };
-  // Legacy service_role keys are JWTs and also go in the Authorization header.
-  if (env.SUPABASE_SERVICE_KEY.startsWith("eyJ")) headers.Authorization = `Bearer ${env.SUPABASE_SERVICE_KEY}`;
-  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/contact_messages`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ ...fields, ip_address: ip || null }),
-  });
-  if (!res.ok) console.error("Supabase insert failed", res.status, await res.text());
-  return res.ok;
+// Returns the new row id, or null if the database isn't available.
+async function saveMessage(fields, ip, env) {
+  if (!env.DB) return null;
+  const result = await env.DB.prepare(
+    "INSERT INTO contact_messages (name, email, phone, message, ip_address) VALUES (?, ?, ?, ?, ?)"
+  )
+    .bind(fields.name, fields.email, fields.phone, fields.message, ip || null)
+    .run();
+  return result.meta.last_row_id;
+}
+
+async function markEmailed(id, env) {
+  await env.DB.prepare("UPDATE contact_messages SET emailed = 1 WHERE id = ?").bind(id).run();
 }
 
 async function sendEmail(fields, env) {
@@ -152,12 +149,12 @@ export async function onRequestPost({ request, env }) {
   const human = await verifyTurnstile(clean(data.turnstileToken, 2048), ip, env.TURNSTILE_SECRET_KEY);
   if (!human) return json(400, { error: "Security check failed. Please refresh the page and try again." });
 
-  const [saved, emailed] = await Promise.all([
-    saveToSupabase(fields, ip, env).catch((e) => (console.error(e), false)),
-    sendEmail(fields, env).catch((e) => (console.error(e), false)),
-  ]);
+  // Save first so the message is never lost, even if the email fails.
+  const id = await saveMessage(fields, ip, env).catch((e) => (console.error("D1 insert failed", e), null));
+  const emailed = await sendEmail(fields, env).catch((e) => (console.error(e), false));
+  if (emailed && id) await markEmailed(id, env).catch((e) => console.error(e));
 
-  if (!saved && !emailed) return json(502, { error: "Sorry, your message couldn't be sent. Please try again later." });
+  if (!id && !emailed) return json(502, { error: "Sorry, your message couldn't be sent. Please try again later." });
   return json(200, { ok: true });
 }
 

@@ -2,7 +2,7 @@
 
 The site is a static Vue build hosted on **Cloudflare Pages**. The contact form posts to a
 **Pages Function** (`functions/api/contact.js`) that checks **Turnstile**, saves the message in
-**Supabase** and emails it to you with **Resend**. Security headers live in `public/_headers`.
+**Cloudflare D1** (a free database) and emails it to you with **Resend**. Security headers live in `public/_headers`.
 
 Do the steps in order. Anything marked **secret** must only ever be pasted into a dashboard,
 never into the code.
@@ -16,12 +16,22 @@ never into the code.
 3. Namecheap → Domain List → Manage → **Nameservers: Custom DNS** → paste Cloudflare's two nameservers.
 4. Wait for the "domain is active" email.
 
-## 2. Supabase (stores every message)
+## 2. Cloudflare D1 (stores every message)
 
-1. Create a project (region: Canada Central).
-2. **SQL Editor** → paste and run `supabase/migrations/20261007000000_contact_messages.sql`.
-3. **Project Settings → API**: copy the **Project URL** and a **secret key** (`sb_secret_…`, or the legacy
-   `service_role` key). The secret key is **secret**.
+```bash
+npx wrangler login
+npx wrangler d1 create simret-portfolio-messages
+```
+
+Paste the `database_id` it prints into `wrangler.toml`, then create the table:
+
+```bash
+npx wrangler d1 migrations apply simret-portfolio-messages --remote
+```
+
+To read your messages later: Cloudflare dashboard → **Storage & Databases → D1 →
+simret-portfolio-messages → Console**, and run
+`SELECT * FROM contact_messages ORDER BY created_at DESC;`
 
 ## 3. Resend (sends the emails)
 
@@ -54,8 +64,6 @@ never into the code.
    | `RESEND_API_KEY` | Secret | Resend API key |
    | `CONTACT_TO_EMAIL` | Text | the inbox that receives messages |
    | `CONTACT_FROM_EMAIL` | Text | `Simret Paulos Portfolio <contact@simretpaulos.com>` |
-   | `SUPABASE_URL` | Text | Supabase project URL |
-   | `SUPABASE_SERVICE_KEY` | Secret | Supabase secret key |
 
 4. Redeploy after adding variables (the site key is baked in at build time).
 5. **Custom domains → Set up a custom domain** → `simretpaulos.com`, then also `www.simretpaulos.com`.
@@ -77,8 +85,8 @@ All available on the Free plan:
 
 ## Checking it works
 
-- Send yourself a message through the form; it should arrive by email and appear in the Supabase
-  `contact_messages` table.
+- Send yourself a message through the form; it should arrive by email and appear in the D1
+  `contact_messages` table with `emailed = 1`.
 - Test the headers at https://securityheaders.com/?q=simretpaulos.com (should score A or A+).
 
 ## Local development
@@ -86,6 +94,7 @@ All available on the Free plan:
 ```bash
 npm run serve        # site at http://localhost:8080 (uses Turnstile's test key)
 cp .dev.vars.example .dev.vars   # then fill in real or test values
+npx wrangler d1 migrations apply simret-portfolio-messages --local   # first time only
 npm run functions    # builds and runs the contact function at http://127.0.0.1:8788
 ```
 
