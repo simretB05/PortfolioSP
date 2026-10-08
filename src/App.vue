@@ -12,14 +12,14 @@ export default {
 
 <style>
 :root {
-  --bg: #0e1511;
-  --bg-alt: #131c17;
-  --surface: #18231d;
-  --line: rgba(236, 231, 220, 0.14);
-  --line-strong: rgba(236, 231, 220, 0.28);
-  --text: #ece7dc;
-  --muted: #a4aca1;
-  --accent: #c8b98d;
+  --bg: #0b1716;
+  --bg-alt: #0f1e1c;
+  --surface: #142725;
+  --line: rgba(232, 238, 233, 0.14);
+  --line-strong: rgba(232, 238, 233, 0.28);
+  --text: #e8eee9;
+  --muted: #9cb0ab;
+  --accent: #1aad9b;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Jost", "Segoe UI", sans-serif;
   --script: "Allura", cursive;
@@ -28,14 +28,15 @@ export default {
 }
 
 :root[data-theme="light"] {
-  --bg: #f4f0e7;
-  --bg-alt: #ebe5d8;
+  --bg: #f1f5f3;
+  --bg-alt: #e4ecea;
   --surface: #ffffff;
-  --line: rgba(27, 38, 32, 0.14);
-  --line-strong: rgba(27, 38, 32, 0.3);
-  --text: #18221c;
-  --muted: #56615a;
-  --accent: #8a7340;
+  --line: rgba(17, 36, 33, 0.14);
+  --line-strong: rgba(17, 36, 33, 0.3);
+  --text: #112421;
+  --muted: #4c605c;
+  /* Darker than the logo teal so accent text stays readable on light backgrounds */
+  --accent: #0f7468;
 }
 
 *,

@@ -1,7 +1,9 @@
 <template>
   <header class="nav" :class="{ scrolled, open }">
     <div class="nav__inner">
-      <a href="#home" class="nav__brand" @click="open = false">{{ name }}</a>
+      <a href="#home" class="nav__brand" :aria-label="`${name} – home`" @click="open = false">
+        <span class="nav__logo" aria-hidden="true"></span>
+      </a>
 
       <nav class="nav__links" aria-label="Main">
         <a
@@ -136,12 +138,30 @@ export default {
 
 .nav__brand {
   margin-right: auto;
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--nav-fg);
+  display: block;
+  line-height: 0;
+}
+
+/* The logo PNG is used as a mask so its color can be set with CSS */
+.nav__logo {
+  display: block;
+  width: 51px;
+  height: 48px;
+  margin: -6px 0;
+  background: #ffffff;
+  -webkit-mask: url("~@/assets/sim_logo_mark.png") center / contain no-repeat;
+  mask: url("~@/assets/sim_logo_mark.png") center / contain no-repeat;
+  transition: transform 0.3s ease, background-color 0.35s ease;
+}
+
+/* White would disappear on the light theme's pale nav bar, so it goes dark there */
+:root[data-theme="light"] .nav.scrolled .nav__logo,
+:root[data-theme="light"] .nav.open .nav__logo {
+  background: var(--text);
+}
+
+.nav__brand:hover .nav__logo {
+  transform: scale(1.06);
 }
 
 .nav__links {

@@ -25,6 +25,7 @@
 
           <div class="card__body">
             <h3 class="card__title">{{ item.title }}</h3>
+            <p v-if="item.description" class="card__desc">{{ item.description }}</p>
             <p class="card__tags">{{ item.tags.join("  /  ") }}</p>
             <i class="mdi mdi-arrow-right card__arrow"></i>
           </div>
@@ -128,6 +129,14 @@ export default {
   font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.card__desc {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+  opacity: 0.85;
 }
 
 .card__tags {

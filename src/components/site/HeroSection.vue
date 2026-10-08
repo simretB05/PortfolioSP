@@ -45,7 +45,7 @@ export default {
   display: grid;
   place-items: end center;
   overflow: hidden;
-  background: #0b110d;
+  background: #081211;
   color: #f2eee5;
   isolation: isolate;
 }
@@ -65,16 +65,18 @@ export default {
   object-fit: cover;
   object-position: 50% 33%;
   filter: saturate(0.75) contrast(1.05) brightness(0.9);
-  animation: photo-in 2.2s ease both;
+  /* Fade in, then a slow zoom and drift that goes back and forth forever */
+  animation: photo-in 2.2s ease both, drift 22s ease-in-out 2.2s infinite alternate;
+  will-change: transform;
 }
 
-/* Dark green wash so the white text reads clearly, deeper at the edges and bottom */
+/* Dark teal wash so the white text reads clearly, deeper at the edges and bottom */
 .hero__shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 18, 13, 0.5) 0%, rgba(10, 18, 13, 0) 20%, rgba(10, 18, 13, 0.25) 55%, #0e1511 100%),
-    radial-gradient(ellipse 75% 75% at 50% 35%, transparent 35%, rgba(10, 18, 13, 0.55) 100%),
-    rgba(22, 40, 29, 0.35);
+  background: linear-gradient(180deg, rgba(8, 20, 19, 0.5) 0%, rgba(8, 20, 19, 0) 20%, rgba(8, 20, 19, 0.25) 55%, #0b1716 100%),
+    radial-gradient(ellipse 75% 75% at 50% 35%, transparent 35%, rgba(8, 20, 19, 0.55) 100%),
+    rgba(14, 52, 48, 0.35);
 }
 
 .hero__content {
@@ -171,6 +173,15 @@ export default {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.12) translate(-2%, -1.5%);
   }
 }
 

@@ -22,24 +22,28 @@ export const work = {
 export const featuredWork = [
   {
     title: "IOR Offroad",
+    description: "Custom-built React and TypeScript site with its own back end. Staff update products, announcements and hours through a built-in CMS, customers request quotes and submit reviews, and an AI chatbot answers questions using the store's own content.",
     tags: ["Web Development", "CMS", "SEO", "AI Chatbot"],
     image: "/images/work-ior.webp",
     link: "https://ior.ca",
   },
   {
     title: "Edward's Factory Outlet",
-    tags: ["Shopify", "UX", "E-commerce"],
+    description: "Shopify store with custom theme sections hand-coded in Liquid instead of an off-the-shelf template, designed around the outlet's menswear, workwear and footwear collections for easy browsing and checkout.",
+    tags: ["Shopify", "Liquid", "Custom Code", "E-commerce"],
     image: "/images/work-edwards.webp",
     link: "https://edwardsfactory.ca",
   },
   {
     title: "SK Lighting Solutions",
+    description: "Fast, custom-coded Vite website built to turn visitors into leads, with clear service pages and quote requests front and centre.",
     tags: ["Web Development", "Vite", "Lead Generation"],
     image: "/images/work-sklighting.webp",
     link: "https://sklightingsolutions.ca",
   },
   {
     title: "GP Storage Solutions",
+    description: "Hand-coded HTML and CSS with no framework, so it loads almost instantly. Local SEO, a sitemap and clear contact details help Grande Prairie customers find heated indoor, sea can and vehicle storage.",
     tags: ["Web Development", "SEO", "Local Business"],
     image: "/images/work-gpstorage.webp",
     link: "https://gpstoragesolutions.ca",

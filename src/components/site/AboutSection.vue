@@ -100,7 +100,8 @@ export default {
   height: 100%;
   object-fit: cover;
   object-position: 50% 20%;
-  filter: saturate(0.8) contrast(1.02);
+  /* Mostly black and white, with a hint of the original color left in */
+  filter: grayscale(0.75) contrast(1.06);
   transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 

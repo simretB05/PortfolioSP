@@ -1,10 +1,6 @@
 <template>
   <section id="contact" class="contact">
     <div class="contact__grid">
-      <div class="contact__image" aria-hidden="true">
-        <img src="/images/contact-portrait.webp" alt="" loading="lazy" />
-      </div>
-
       <div class="contact__pitch" v-scrollanimation="'reveal'">
         <p class="eyebrow">{{ contact.eyebrow }}</p>
         <h2 class="serif-heading">{{ contact.heading[0] }}<br />{{ contact.heading[1] }}</h2>
@@ -32,6 +28,10 @@
 
       <div class="contact__form" v-scrollanimation="'reveal'">
         <contact-form />
+      </div>
+
+      <div class="contact__image" aria-hidden="true">
+        <img src="/images/contact-portrait.webp" alt="" loading="lazy" />
       </div>
     </div>
 
@@ -64,19 +64,26 @@ export default {
 
 .contact__grid {
   display: grid;
-  grid-template-columns: minmax(180px, 0.6fr) 1fr 1.25fr;
+  /* Equal side columns keep the form column in the exact middle of the page */
+  grid-template-columns: 1fr minmax(360px, 520px) 1fr;
   gap: 48px;
   align-items: center;
-  padding-right: var(--gutter);
 }
 
 .contact__image {
   position: relative;
   align-self: stretch;
   min-height: 420px;
+  /* Reach back into the column gap so the fade has room to blend */
+  margin-left: -48px;
   overflow: hidden;
 }
 
+/*
+ * The photo itself fades out (a mask, not a colored overlay), so it melts into
+ * whatever background is behind it in either theme. Many easing stops avoid a
+ * visible edge; the top and bottom fade softly too.
+ */
 .contact__image img {
   position: absolute;
   inset: 0;
@@ -85,18 +92,38 @@ export default {
   object-fit: cover;
   object-position: 50% 20%;
   filter: saturate(0.85);
-}
-
-/* Fade the photo into the page background on the right */
-.contact__image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 70%, var(--bg) 100%);
+  -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.04) 8%,
+      rgba(0, 0, 0, 0.15) 16%,
+      rgba(0, 0, 0, 0.32) 24%,
+      rgba(0, 0, 0, 0.52) 32%,
+      rgba(0, 0, 0, 0.72) 40%,
+      rgba(0, 0, 0, 0.88) 48%,
+      rgba(0, 0, 0, 0.97) 56%,
+      #000 64%
+    ),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.04) 8%,
+      rgba(0, 0, 0, 0.15) 16%,
+      rgba(0, 0, 0, 0.32) 24%,
+      rgba(0, 0, 0, 0.52) 32%,
+      rgba(0, 0, 0, 0.72) 40%,
+      rgba(0, 0, 0, 0.88) 48%,
+      rgba(0, 0, 0, 0.97) 56%,
+      #000 64%
+    ),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-composite: intersect;
 }
 
 .contact__pitch {
-  padding: 72px 0;
+  padding: 72px 0 72px var(--gutter);
 }
 
 .contact__text {
@@ -105,6 +132,9 @@ export default {
 }
 
 .contact__form {
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
   padding: 56px 0;
 }
 
@@ -175,6 +205,7 @@ export default {
     padding: 0 var(--gutter) 56px;
   }
   .contact__pitch {
+    padding-left: 0;
     padding-bottom: 8px;
   }
   .contact__form {
