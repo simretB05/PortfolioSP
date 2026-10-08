@@ -1,12 +1,12 @@
 <template>
   <section id="work" class="work">
-    <div class="container">
+    <div class="container work__layout">
       <div class="work__intro" v-scrollanimation="'reveal'">
-        <div>
-          <p class="eyebrow">{{ work.eyebrow }}</p>
-          <h2 class="serif-heading">{{ work.heading[0] }}<br />{{ work.heading[1] }}</h2>
-        </div>
-        <p class="body-text">{{ work.text }}</p>
+        <p class="eyebrow">{{ work.eyebrow }}</p>
+        <h2 class="serif-heading">
+          <span v-for="line in work.heading" :key="line" class="work__line">{{ line }}</span>
+        </h2>
+        <p class="body-text work__text">{{ work.text }}</p>
       </div>
 
       <div class="work__grid">
@@ -50,17 +50,30 @@ export default {
   background: var(--bg);
 }
 
-.work__intro {
+.work__layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: end;
-  margin-bottom: 44px;
+  grid-template-columns: minmax(260px, 0.85fr) 1.6fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+/* Text stays in view while the project cards scroll past */
+.work__intro {
+  position: sticky;
+  top: 110px;
+}
+
+.work__line {
+  display: block;
+}
+
+.work__text {
+  margin-top: 22px;
 }
 
 .work__grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -140,12 +153,11 @@ export default {
 }
 
 @media (max-width: 1000px) {
-  .work__intro {
+  .work__layout {
     grid-template-columns: 1fr;
-    gap: 18px;
   }
-  .work__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .work__intro {
+    position: static;
   }
 }
 

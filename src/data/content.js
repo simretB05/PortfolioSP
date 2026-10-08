@@ -15,7 +15,7 @@ export const profile = {
 
 export const work = {
   eyebrow: "Featured work",
-  heading: ["Helping Grande Prairie", "businesses grow online."],
+  heading: ["Helping Grande", "Prairie businesses", "grow online."],
   text: "These are local businesses in and around Grande Prairie. Right now I'm focused on helping our community upgrade its digital presence — modern websites, better search visibility and tools that bring in real customers.",
 };
 
