@@ -1,7 +1,8 @@
 // Cloudflare Pages Function: POST /api/contact
 //
 // Receives the contact form, checks it is a real person (Turnstile), stores the
-// message in Cloudflare D1 and emails it through Resend.
+// message in Cloudflare D1, emails it to Simret and sends the visitor a thank-you,
+// both through Resend.
 //
 // Bindings (wrangler.toml):
 //   DB                     D1 database with the contact_messages table (migrations/)
@@ -10,7 +11,10 @@
 //   RESEND_API_KEY         required
 //   CONTACT_TO_EMAIL       required – inbox that receives messages
 //   CONTACT_FROM_EMAIL     optional – defaults to contact@simretpaulos.com (must be a Resend-verified domain)
+//   CONTACT_REPLY_TO       optional – where customer replies to the thank-you go; defaults to hello@simretpaulos.com
 //   ALLOWED_ORIGINS        optional – extra comma-separated origins, e.g. http://localhost:8080 for local dev
+
+import { notificationEmail, thankYouEmail } from "../_lib/emails.js";
 
 const MAX_BODY_BYTES = 10 * 1024;
 const LIMITS = { name: 100, email: 254, phone: 30, message: 2000 };
@@ -71,10 +75,6 @@ async function verifyTurnstile(token, ip, secret) {
   return outcome.success === true;
 }
 
-function escapeHtml(text) {
-  return text.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-}
-
 // Returns the new row id, or null if the database isn't available.
 async function saveMessage(fields, ip, env) {
   if (!env.DB) return null;
@@ -90,31 +90,37 @@ async function markEmailed(id, env) {
   await env.DB.prepare("UPDATE contact_messages SET emailed = 1 WHERE id = ?").bind(id).run();
 }
 
-async function sendEmail(fields, env) {
-  const from = env.CONTACT_FROM_EMAIL || "Simret Paulos Portfolio <contact@simretpaulos.com>";
-  const html = `
-    <h2>New message from your portfolio</h2>
-    <p><strong>Name:</strong> ${escapeHtml(fields.name)}</p>
-    <p><strong>Email:</strong> ${escapeHtml(fields.email)}</p>
-    <p><strong>Phone:</strong> ${escapeHtml(fields.phone)}</p>
-    <p><strong>Message:</strong></p>
-    <p style="white-space:pre-wrap">${escapeHtml(fields.message)}</p>`;
-  const text = `Name: ${fields.name}\nEmail: ${fields.email}\nPhone: ${fields.phone}\n\n${fields.message}`;
-
+async function resendSend(env, email) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [env.CONTACT_TO_EMAIL],
-      reply_to: fields.email,
-      subject: `New portfolio message from ${fields.name.replace(/[\r\n]/g, " ")}`,
-      html,
-      text,
-    }),
+    body: JSON.stringify(email),
   });
   if (!res.ok) console.error("Resend failed", res.status, await res.text());
   return res.ok;
+}
+
+function fromAddress(env) {
+  return env.CONTACT_FROM_EMAIL || "Simret Paulos <contact@simretpaulos.com>";
+}
+
+// The message itself, sent to Simret. Replying goes straight to the visitor.
+function sendNotification(fields, env) {
+  const { subject, html, text } = notificationEmail(fields);
+  return resendSend(env, { from: fromAddress(env), to: [env.CONTACT_TO_EMAIL], reply_to: fields.email, subject, html, text });
+}
+
+// Branded thank-you to the visitor. Contains only their first name, never their message.
+function sendThankYou(fields, env) {
+  const { subject, html, text } = thankYouEmail(fields.name);
+  return resendSend(env, {
+    from: fromAddress(env),
+    to: [fields.email],
+    reply_to: env.CONTACT_REPLY_TO || "hello@simretpaulos.com",
+    subject,
+    html,
+    text,
+  });
 }
 
 export async function onRequestPost({ request, env }) {
@@ -151,8 +157,11 @@ export async function onRequestPost({ request, env }) {
 
   // Save first so the message is never lost, even if the email fails.
   const id = await saveMessage(fields, ip, env).catch((e) => (console.error("D1 insert failed", e), null));
-  const emailed = await sendEmail(fields, env).catch((e) => (console.error(e), false));
+  const emailed = await sendNotification(fields, env).catch((e) => (console.error(e), false));
   if (emailed && id) await markEmailed(id, env).catch((e) => console.error(e));
+
+  // Only thank people whose message actually reached Simret; a failed thank-you doesn't fail the form.
+  if (id || emailed) await sendThankYou(fields, env).catch((e) => console.error("Thank-you email failed", e));
 
   if (!id && !emailed) return json(502, { error: "Sorry, your message couldn't be sent. Please try again later." });
   return json(200, { ok: true });
