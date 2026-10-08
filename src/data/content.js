@@ -13,6 +13,12 @@ export const profile = {
   resume: "/images/SimretPaulosResume.pdf",
 };
 
+export const work = {
+  eyebrow: "Featured work",
+  heading: ["Helping Grande Prairie", "businesses grow online."],
+  text: "These are local businesses in and around Grande Prairie. Right now I'm focused on helping our community upgrade its digital presence — modern websites, better search visibility and tools that bring in real customers.",
+};
+
 export const featuredWork = [
   {
     title: "IOR Offroad",
@@ -37,19 +43,6 @@ export const featuredWork = [
     tags: ["Web Development", "SEO", "Local Business"],
     image: "/images/work-gpstorage.webp",
     link: "https://gpstoragesolutions.ca",
-  },
-  {
-    title: "Bandsite",
-    tags: ["React", "Hooks", "CRUD API"],
-    image: "/images/work-bandsite.webp",
-    link: "https://sunny-bonbon-17baef.netlify.app/",
-  },
-  {
-    title: "AI Chatbot",
-    tags: ["SEO", "Knowledge Base", "Fine-tuning"],
-    // No image: rendered as a mini chat window.
-    chat: true,
-    link: "",
   },
 ];
 

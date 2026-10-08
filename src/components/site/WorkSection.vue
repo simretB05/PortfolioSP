@@ -1,49 +1,45 @@
 <template>
   <section id="work" class="work">
     <div class="container">
-      <p class="eyebrow" v-scrollanimation="'reveal'">Featured work</p>
+      <div class="work__intro" v-scrollanimation="'reveal'">
+        <div>
+          <p class="eyebrow">{{ work.eyebrow }}</p>
+          <h2 class="serif-heading">{{ work.heading[0] }}<br />{{ work.heading[1] }}</h2>
+        </div>
+        <p class="body-text">{{ work.text }}</p>
+      </div>
 
       <div class="work__grid">
-        <component
-          :is="item.link ? 'a' : 'div'"
+        <a
           v-for="item in items"
           :key="item.title"
-          :href="item.link || null"
-          :target="item.link ? '_blank' : null"
-          :rel="item.link ? 'noopener' : null"
+          :href="item.link"
+          target="_blank"
+          rel="noopener"
           class="card"
           v-scrollanimation="'reveal'"
         >
           <div class="card__media">
-            <img v-if="item.image" :src="item.image" :alt="`${item.title} website`" loading="lazy" />
-
-            <div v-else-if="item.chat" class="chat" aria-hidden="true">
-              <p class="chat__head">AI Assistant</p>
-              <div class="chat__row">
-                <span class="chat__avatar"><i class="mdi mdi-robot-outline"></i></span>
-                <p class="chat__bubble">Hi! I can help you with information about our products and services. What would you like to know?</p>
-              </div>
-              <div class="chat__input">Type your question… <i class="mdi mdi-send"></i></div>
-            </div>
+            <img :src="item.image" :alt="`${item.title} website`" loading="lazy" />
           </div>
 
           <div class="card__body">
             <h3 class="card__title">{{ item.title }}</h3>
             <p class="card__tags">{{ item.tags.join("  /  ") }}</p>
-            <i v-if="item.link" class="mdi mdi-arrow-right card__arrow"></i>
+            <i class="mdi mdi-arrow-right card__arrow"></i>
           </div>
-        </component>
+        </a>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import { featuredWork } from "@/data/content";
+import { work, featuredWork } from "@/data/content";
 
 export default {
   data() {
-    return { items: featuredWork };
+    return { work, items: featuredWork };
   },
 };
 </script>
@@ -54,10 +50,18 @@ export default {
   background: var(--bg);
 }
 
+.work__intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 44px;
+}
+
 .work__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
 }
 
 .card {
@@ -72,7 +76,7 @@ export default {
   transition: opacity 0.9s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.3s ease;
 }
 
-a.card:hover {
+.card:hover {
   transform: translateY(-6px);
   border-color: var(--accent);
 }
@@ -94,7 +98,7 @@ a.card:hover {
   transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.4s ease;
 }
 
-a.card:hover .card__media img {
+.card:hover .card__media img {
   transform: scale(1.05);
   filter: saturate(1);
 }
@@ -130,65 +134,16 @@ a.card:hover .card__media img {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-a.card:hover .card__arrow {
+.card:hover .card__arrow {
   transform: translateX(4px);
   color: var(--text);
 }
 
-/* Mini chat window for the AI Chatbot card */
-.chat {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 12px;
-  font-size: 0.78rem;
-  background: #1d2a23;
-  color: #e9e4d8;
-}
-
-.chat__head {
-  margin: 0;
-  font-weight: 400;
-}
-
-.chat__row {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.chat__avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #3e6b59;
-  font-size: 0.85rem;
-}
-
-.chat__bubble {
-  margin: 0;
-  padding: 8px 10px;
-  border-radius: 10px 10px 10px 2px;
-  background: #e9e4d8;
-  color: #1d2a23;
-  line-height: 1.35;
-}
-
-.chat__input {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(233, 228, 216, 0.12);
-  color: rgba(233, 228, 216, 0.6);
-}
-
 @media (max-width: 1000px) {
+  .work__intro {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
   .work__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
