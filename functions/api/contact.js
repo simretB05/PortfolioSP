@@ -148,7 +148,7 @@ export async function onRequestPost({ request, env }) {
 
   if (!env.TURNSTILE_SECRET_KEY || !env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL) {
     console.error("Contact form is missing TURNSTILE_SECRET_KEY, RESEND_API_KEY or CONTACT_TO_EMAIL");
-    return json(500, { error: "The contact form isn't set up yet. Please email me directly." });
+    return json(500, { error: "The contact form isn't available right now. Please message me on LinkedIn instead." });
   }
 
   const ip = request.headers.get("CF-Connecting-IP");
@@ -163,7 +163,7 @@ export async function onRequestPost({ request, env }) {
   // Only thank people whose message actually reached Simret; a failed thank-you doesn't fail the form.
   if (id || emailed) await sendThankYou(fields, env).catch((e) => console.error("Thank-you email failed", e));
 
-  if (!id && !emailed) return json(502, { error: "Sorry, your message couldn't be sent. Please try again later." });
+  if (!id && !emailed) return json(502, { error: "Sorry, your message couldn't be sent. Please try again later, or message me on LinkedIn." });
   return json(200, { ok: true });
 }
 
