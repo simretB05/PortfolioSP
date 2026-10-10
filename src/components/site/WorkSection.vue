@@ -48,7 +48,7 @@ export default {
 <style scoped>
 .work {
   padding: clamp(80px, 10vw, 120px) 0;
-  background: var(--bg-alt);
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 

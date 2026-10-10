@@ -30,17 +30,17 @@ export default {
 }
 
 :root[data-theme="light"] {
-  /* Old newspaper: yellowed newsprint, faded warm-black ink and crisp rules */
-  --bg: #ede4cf;
-  --bg-alt: #e4d9bf;
-  --surface: #f3ecdc;
-  --line: rgba(33, 28, 20, 0.18);
-  --line-strong: rgba(33, 28, 20, 0.45);
-  --text: #1f1a13;
-  --muted: #4d4436;
-  --accent: #1f1a13;
-  /* Photos print in black and white, slightly aged like an old paper */
-  --photo-tone: grayscale(1) sepia(0.12) contrast(1.1);
+  /* Black-and-white newspaper: newsprint white, solid black ink, firm rules */
+  --bg: #f5f5f2;
+  --bg-alt: #ebebe7;
+  --surface: #fbfbf9;
+  --line: rgba(0, 0, 0, 0.2);
+  --line-strong: rgba(0, 0, 0, 0.55);
+  --text: #0d0d0d;
+  --muted: #3b3b3b;
+  --accent: #0d0d0d;
+  /* Photos print in high-contrast black and white until hovered */
+  --photo-tone: grayscale(1) contrast(1.15);
 }
 
 *,
@@ -145,20 +145,24 @@ a {
 }
 
 /*
- * Day mode reads like a newspaper: every image prints in black and white and
- * only shows its color while hovered. Hover is checked on each image's block,
- * since overlays and text sit on top of some photos.
+ * Photos show their full color only while hovered. In day mode every image
+ * starts black and white; in dark mode the photos start in the warm sepia tone.
+ * Hover is checked on each image's block, since overlays and text sit on top
+ * of some photos.
  */
-:root[data-theme="light"] img {
-  filter: var(--photo-tone) !important;
+img {
   transition: filter 0.6s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
 
-:root[data-theme="light"] .hero:hover img,
-:root[data-theme="light"] .card:hover img,
-:root[data-theme="light"] .about__photo:hover img,
-:root[data-theme="light"] .exploring__top:hover img,
-:root[data-theme="light"] .contact__image:hover img {
+:root[data-theme="light"] img {
+  filter: var(--photo-tone) !important;
+}
+
+.hero:hover img,
+.card:hover img,
+.about__photo:hover img,
+.exploring__top:hover img,
+.contact__image:hover img {
   filter: none !important;
 }
 

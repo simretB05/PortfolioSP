@@ -5,7 +5,7 @@
         <img :src="exploring.photo" alt="" loading="lazy" />
       </div>
 
-      <div class="container">
+      <div class="exploring__inner">
         <div class="exploring__intro" v-scrollanimation="'reveal'">
           <p class="eyebrow">{{ exploring.eyebrow }}</p>
           <h2 class="serif-heading exploring__heading">{{ exploring.heading[0] }}<br />{{ exploring.heading[1] }}</h2>
@@ -39,7 +39,7 @@ export default {
 <style scoped>
 .exploring__top {
   position: relative;
-  background: var(--bg-alt);
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
@@ -69,6 +69,12 @@ export default {
   filter: var(--photo-tone) brightness(0.88);
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.4) 18%, rgba(0, 0, 0, 0.85) 36%, #000 50%);
   mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.4) 18%, rgba(0, 0, 0, 0.85) 36%, #000 50%);
+}
+
+/* Lines up with the About text above rather than the centered page column */
+.exploring__inner {
+  width: 100%;
+  padding: 0 clamp(24px, 4vw, 64px);
 }
 
 .exploring__intro {
@@ -120,6 +126,10 @@ export default {
     align-items: stretch;
     min-height: 0;
     padding-top: 0;
+  }
+
+  .exploring__inner {
+    padding: 0 var(--gutter);
   }
 
   /* Photo sits above the text so nothing is printed over it */
