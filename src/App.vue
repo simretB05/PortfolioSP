@@ -62,6 +62,7 @@ body {
   font-family: var(--sans);
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
