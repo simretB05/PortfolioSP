@@ -19,10 +19,6 @@
             <i class="mdi mdi-github"></i>
             <a :href="profile.github" target="_blank" rel="noopener">github.com/simretB05</a>
           </li>
-          <li>
-            <i class="mdi mdi-map-marker-outline"></i>
-            <span>{{ profile.location }}</span>
-          </li>
         </ul>
       </div>
 
@@ -36,7 +32,7 @@
     </div>
 
     <footer class="footer">
-      <p>© {{ year }} {{ profile.name }} &nbsp;|&nbsp; Web Developer &nbsp;|&nbsp; {{ profile.location }}</p>
+      <p>© {{ year }} {{ profile.name }} &nbsp;|&nbsp; Web Developer</p>
       <div class="footer__social">
         <a :href="profile.linkedin" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="mdi mdi-linkedin"></i></a>
         <a :href="profile.github" target="_blank" rel="noopener" aria-label="GitHub"><i class="mdi mdi-github"></i></a>
@@ -64,7 +60,7 @@ export default {
 
 .contact__grid {
   display: grid;
-  /* Equal side columns keep the form column in the exact middle of the page */
+  /* Photo on the left, form in the exact middle of the page, pitch on the right */
   grid-template-columns: 1fr minmax(360px, 520px) 1fr;
   gap: 48px;
   align-items: center;
@@ -74,13 +70,14 @@ export default {
   position: relative;
   align-self: stretch;
   min-height: 420px;
-  /* Reach back into the column gap so the fade has room to blend */
-  margin-left: -48px;
+  order: -1;
+  /* Reach into the column gap so the fade has room to blend */
+  margin-right: -48px;
   overflow: hidden;
 }
 
 /*
- * The photo itself fades out (a mask, not a colored overlay), so it melts into
+ * The photo itself fades out to the right (a mask, not a colored overlay), so it melts into
  * whatever background is behind it in either theme. Many easing stops avoid a
  * visible edge; the top and bottom fade softly too.
  */
@@ -91,9 +88,9 @@ export default {
   height: 100%;
   object-fit: cover;
   object-position: 50% 20%;
-  filter: saturate(0.85);
+  filter: var(--photo-tone);
   -webkit-mask-image: linear-gradient(
-      90deg,
+      270deg,
       transparent 0%,
       rgba(0, 0, 0, 0.04) 8%,
       rgba(0, 0, 0, 0.15) 16%,
@@ -107,7 +104,7 @@ export default {
     linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image: linear-gradient(
-      90deg,
+      270deg,
       transparent 0%,
       rgba(0, 0, 0, 0.04) 8%,
       rgba(0, 0, 0, 0.15) 16%,
@@ -123,7 +120,8 @@ export default {
 }
 
 .contact__pitch {
-  padding: 72px 0 72px var(--gutter);
+  order: 1;
+  padding: 72px var(--gutter) 72px 0;
 }
 
 .contact__text {
@@ -205,7 +203,8 @@ export default {
     padding: 0 var(--gutter) 56px;
   }
   .contact__pitch {
-    padding-left: 0;
+    order: 0;
+    padding-right: 0;
     padding-bottom: 8px;
   }
   .contact__form {
@@ -221,5 +220,13 @@ export default {
     flex-direction: column;
     text-align: center;
   }
+}
+
+/* Day mode: a shorter fade so more of the photo shows */
+:root[data-theme="light"] .contact__image img {
+  -webkit-mask-image: linear-gradient(270deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.9) 22%, #000 30%),
+    linear-gradient(180deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(270deg, transparent 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.9) 22%, #000 30%),
+    linear-gradient(180deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
 }
 </style>

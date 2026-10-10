@@ -18,25 +18,29 @@ export default {
   --line: rgba(232, 238, 233, 0.14);
   --line-strong: rgba(232, 238, 233, 0.28);
   --text: #e8eee9;
-  --muted: #9cb0ab;
-  --accent: #1aad9b;
+  --muted: #b2c3be;
+  --accent: #3cc2b0;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Jost", "Segoe UI", sans-serif;
   --script: "Allura", cursive;
   --max: 1200px;
   --gutter: clamp(20px, 5vw, 56px);
+  /* Shared warm black-and-white tone for every photo */
+  --photo-tone: grayscale(1) sepia(0.3) contrast(1.05);
 }
 
 :root[data-theme="light"] {
-  --bg: #f1f5f3;
-  --bg-alt: #e4ecea;
-  --surface: #ffffff;
-  --line: rgba(17, 36, 33, 0.14);
-  --line-strong: rgba(17, 36, 33, 0.3);
-  --text: #112421;
-  --muted: #4c605c;
-  /* Darker than the logo teal so accent text stays readable on light backgrounds */
-  --accent: #0f7468;
+  /* Old newspaper: yellowed newsprint, faded warm-black ink and crisp rules */
+  --bg: #ede4cf;
+  --bg-alt: #e4d9bf;
+  --surface: #f3ecdc;
+  --line: rgba(33, 28, 20, 0.18);
+  --line-strong: rgba(33, 28, 20, 0.45);
+  --text: #1f1a13;
+  --muted: #4d4436;
+  --accent: #1f1a13;
+  /* Photos print in black and white, slightly aged like an old paper */
+  --photo-tone: grayscale(1) sepia(0.12) contrast(1.1);
 }
 
 *,
@@ -79,19 +83,30 @@ a {
 }
 
 .eyebrow {
-  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 20px;
   font-family: var(--sans);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent);
+}
+
+.eyebrow::after {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
 }
 
 .serif-heading {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  font-size: clamp(2.3rem, 4vw, 3.3rem);
   font-weight: 400;
   line-height: 1.08;
   color: var(--text);
@@ -99,9 +114,51 @@ a {
 
 .body-text {
   margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.7;
+  font-size: 1.08rem;
+  line-height: 1.75;
   color: var(--muted);
+}
+
+/* Small uppercase link with an underline and arrow ("View my work ->") */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid currentColor;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.text-link i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.text-link:hover i {
+  transform: translateX(5px);
+}
+
+/*
+ * Day mode reads like a newspaper: every image prints in black and white and
+ * only shows its color while hovered. Hover is checked on each image's block,
+ * since overlays and text sit on top of some photos.
+ */
+:root[data-theme="light"] img {
+  filter: var(--photo-tone) !important;
+  transition: filter 0.6s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+}
+
+:root[data-theme="light"] .hero:hover img,
+:root[data-theme="light"] .card:hover img,
+:root[data-theme="light"] .about__photo:hover img,
+:root[data-theme="light"] .exploring__top:hover img,
+:root[data-theme="light"] .contact__image:hover img {
+  filter: none !important;
 }
 
 /* Scroll reveal (used with v-scrollanimation="'reveal'") */

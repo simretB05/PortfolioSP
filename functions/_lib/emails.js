@@ -56,7 +56,7 @@ function layout({ preheader, body }) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:${BRAND.card};border-radius:10px;overflow:hidden;">
       <tr><td style="background:${BRAND.dark};padding:22px 28px 18px;">
         <p style="margin:0;font-family:${BRAND.sans};font-size:16px;font-weight:300;letter-spacing:5px;color:#ffffff;">SIMRET PAULOS</p>
-        <p style="margin:6px 0 0;font-family:${BRAND.sans};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${BRAND.accent};">Web Development &amp; AI &middot; Grande Prairie, AB</p>
+        <p style="margin:6px 0 0;font-family:${BRAND.sans};font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${BRAND.accent};">Web Development &amp; AI</p>
       </td></tr>
       <tr><td style="height:3px;background:${BRAND.accent};font-size:0;line-height:0;">&nbsp;</td></tr>
       ${body}
@@ -85,7 +85,7 @@ export function thankYouEmail(fullName) {
       <tr><td style="padding:22px 28px 26px;">
         <p style="margin:0;font-family:${BRAND.sans};font-size:14px;color:${BRAND.text};">Talk soon,</p>
         <p style="margin:2px 0 0;font-family:${BRAND.serif};font-size:20px;font-style:italic;color:${BRAND.text};">Simret Paulos</p>
-        <p style="margin:2px 0 0;font-family:${BRAND.sans};font-size:12px;color:${BRAND.muted};">Web Developer &amp; AI Solutions &middot; Grande Prairie, AB</p>
+        <p style="margin:2px 0 0;font-family:${BRAND.sans};font-size:12px;color:${BRAND.muted};">Web Developer &amp; AI Solutions</p>
       </td></tr>
       <tr><td style="padding:14px 28px;background:${BRAND.page};font-family:${BRAND.sans};font-size:11px;line-height:1.6;color:${BRAND.muted};">
         <a href="${SITE_URL}" style="color:${BRAND.muted};">simretpaulos.com</a> &nbsp;&middot;&nbsp; <a href="${LINKEDIN}" style="color:${BRAND.muted};">LinkedIn</a><br>
@@ -101,7 +101,7 @@ ${RECENT_WORK.map((p) => `- ${p.name}: ${p.url}`).join("\n")}
 
 Talk soon,
 Simret Paulos
-Web Developer & AI Solutions · Grande Prairie, AB
+Web Developer & AI Solutions
 ${SITE_URL}`;
 
   return {

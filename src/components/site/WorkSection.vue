@@ -23,12 +23,12 @@
             <img :src="item.image" :alt="`${item.title} website`" loading="lazy" />
           </div>
 
-          <div class="card__body">
-            <h3 class="card__title">{{ item.title }}</h3>
-            <p v-if="item.description" class="card__desc">{{ item.description }}</p>
-            <p class="card__tags">{{ item.tags.join("  /  ") }}</p>
-            <i class="mdi mdi-arrow-right card__arrow"></i>
-          </div>
+          <h3 class="card__title">
+            {{ item.title }}
+            <i class="mdi mdi-arrow-top-right card__arrow"></i>
+          </h3>
+          <p class="card__desc">{{ item.summary }}</p>
+          <p class="card__tags">{{ item.tags.join("  /  ") }}</p>
         </a>
       </div>
     </div>
@@ -47,21 +47,22 @@ export default {
 
 <style scoped>
 .work {
-  padding: 72px 0 96px;
-  background: var(--bg);
+  padding: clamp(80px, 10vw, 120px) 0;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
 }
 
 .work__layout {
   display: grid;
-  grid-template-columns: minmax(260px, 0.85fr) 1.6fr;
-  gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: minmax(260px, 0.8fr) 2fr;
+  gap: clamp(40px, 6vw, 88px);
   align-items: start;
 }
 
 /* Text stays in view while the project cards scroll past */
 .work__intro {
   position: sticky;
-  top: 110px;
+  top: 120px;
 }
 
 .work__line {
@@ -69,38 +70,29 @@ export default {
 }
 
 .work__text {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .work__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: clamp(40px, 5vw, 56px) clamp(24px, 3vw, 40px);
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  overflow: hidden;
+  display: block;
   text-decoration: none;
   color: var(--text);
-  background: var(--bg-alt);
-  transition: opacity 0.9s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
 }
 
 .card__media {
   aspect-ratio: 16 / 10;
-  margin: 12px 12px 0;
-  border-radius: 3px;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
   overflow: hidden;
   background: var(--surface);
+  transition: border-color 0.3s ease;
 }
 
 .card__media img {
@@ -109,56 +101,55 @@ export default {
   object-fit: cover;
   object-position: top;
   filter: saturate(0.85);
-  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.4s ease;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.4s ease;
+}
+
+.card:hover .card__media {
+  border-color: var(--accent);
 }
 
 .card:hover .card__media img {
-  transform: scale(1.05);
+  transform: scale(1.04);
   filter: saturate(1);
 }
 
-.card__body {
-  position: relative;
-  flex: 1;
-  padding: 18px 16px 44px;
-}
-
 .card__title {
-  margin: 0 0 8px;
-  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 10px;
+  font-size: 1.05rem;
   font-weight: 400;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.card__desc {
-  margin: 0 0 12px;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--text);
-  opacity: 0.85;
-}
-
-.card__tags {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--muted);
-  white-space: pre-wrap;
-}
-
 .card__arrow {
-  position: absolute;
-  right: 16px;
-  bottom: 12px;
   font-size: 1.15rem;
   color: var(--muted);
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .card:hover .card__arrow {
-  transform: translateX(4px);
-  color: var(--text);
+  transform: translate(3px, -3px);
+  color: var(--accent);
+}
+
+.card__desc {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.card__tags {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: pre-wrap;
 }
 
 @media (max-width: 1000px) {
@@ -167,10 +158,11 @@ export default {
   }
   .work__intro {
     position: static;
+    max-width: 560px;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .work__grid {
     grid-template-columns: 1fr;
   }

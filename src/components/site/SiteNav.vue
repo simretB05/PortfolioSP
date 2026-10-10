@@ -49,7 +49,8 @@ export default {
       links: [
         { id: "home", label: "Home" },
         { id: "about", label: "About" },
-        { id: "work", label: "Portfolio" },
+        { id: "work", label: "Work" },
+        { id: "services", label: "Services" },
         { id: "contact", label: "Contact" },
       ],
       active: "home",
@@ -95,6 +96,7 @@ export default {
       },
       { rootMargin: "-45% 0px -50% 0px" }
     );
+    // Services lives inside About, so only the top-level sections are watched.
     ["home", "work", "about", "contact"].forEach((id) => {
       const el = document.getElementById(id);
       if (el) this.spy.observe(el);

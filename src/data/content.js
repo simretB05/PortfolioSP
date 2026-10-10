@@ -2,10 +2,9 @@
 
 export const profile = {
   name: "Simret Paulos",
-  title: "AI Solutions Architect & Web Development Specialist",
+  title: "Web Developer & Digital Creator",
   tagline:
-    "Building future-proof digital experiences through innovative AI and web development. Exploring RAG, fine-tuning, and scalable solutions.",
-  location: "Grande Prairie, AB",
+    "I build clean, responsive websites and digital experiences that help businesses grow. I also work with AI and cloud technologies to create smart, scalable solutions.",
   // Leave empty to hide the email line and point "Get in touch" at LinkedIn.
   email: "",
   linkedin: "https://www.linkedin.com/in/simret-webdev/",
@@ -15,36 +14,40 @@ export const profile = {
 
 export const work = {
   eyebrow: "Featured work",
-  heading: ["Helping Grande", "Prairie businesses", "grow online."],
-  text: "These are local businesses in and around Grande Prairie. Right now I'm focused on helping our community upgrade its digital presence — modern websites, better search visibility and tools that bring in real customers.",
+  heading: ["Real Projects.", "Real Impact."],
+  text: "Websites and digital tools I've built for local businesses. Each one helped improve their online presence, bring in customers or make day-to-day work easier.",
 };
 
 export const featuredWork = [
   {
     title: "IOR Offroad",
     description: "Custom-built React and TypeScript site with its own back end. Staff update products, announcements and hours through a built-in CMS, customers request quotes and submit reviews, and an AI chatbot answers questions using the store's own content.",
-    tags: ["Web Development", "CMS", "SEO", "AI Chatbot"],
+    summary: "Custom React site with a built-in CMS, quote requests and an AI chatbot.",
+    tags: ["Web Dev", "CMS", "SEO", "AI"],
     image: "/images/work-ior.webp",
     link: "https://ior.ca",
   },
   {
     title: "Edward's Factory Outlet",
     description: "Shopify store with custom theme sections hand-coded in Liquid instead of an off-the-shelf template, designed around the outlet's menswear, workwear and footwear collections for easy browsing and checkout.",
-    tags: ["Shopify", "Liquid", "Custom Code", "E-commerce"],
+    summary: "Shopify store with custom theme sections hand-coded in Liquid.",
+    tags: ["Shopify", "Liquid", "E-commerce"],
     image: "/images/work-edwards.webp",
     link: "https://edwardsfactory.ca",
   },
   {
     title: "SK Lighting Solutions",
     description: "Fast, custom-coded Vite website built to turn visitors into leads, with clear service pages and quote requests front and centre.",
-    tags: ["Web Development", "Vite", "Lead Generation"],
+    summary: "Fast, custom-coded website built to turn visitors into leads.",
+    tags: ["Web Dev", "Vite", "Lead Gen"],
     image: "/images/work-sklighting.webp",
     link: "https://sklightingsolutions.ca",
   },
   {
     title: "GP Storage Solutions",
-    description: "Hand-coded HTML and CSS with no framework, so it loads almost instantly. Local SEO, a sitemap and clear contact details help Grande Prairie customers find heated indoor, sea can and vehicle storage.",
-    tags: ["Web Development", "SEO", "Local Business"],
+    description: "Hand-coded HTML and CSS with no framework, so it loads almost instantly. Local SEO, a sitemap and clear contact details help local customers find heated indoor, sea can and vehicle storage.",
+    summary: "Hand-coded site that loads almost instantly, with strong local SEO.",
+    tags: ["Web Dev", "SEO", "Local"],
     image: "/images/work-gpstorage.webp",
     link: "https://gpstoragesolutions.ca",
   },
@@ -87,9 +90,6 @@ export const services = [
 ];
 
 export const journey = {
-  eyebrow: "My journey",
-  heading: ["From Engineering", "to AI."],
-  text: "Each step gave me the skills, mindset and curiosity that brought me here — and I'm just getting started.",
   steps: [
     { icon: "mdi-cog-outline", title: "Mechanical Engineering", detail: "BSc" },
     { icon: "mdi-laptop", title: "Web Development", detail: "Full Stack & Cloud" },
@@ -99,8 +99,11 @@ export const journey = {
 };
 
 export const exploring = {
-  eyebrow: "Currently exploring",
+  eyebrow: "My next chapter",
   heading: ["AI is where I'm", "heading next."],
+  text: "My goal is practical AI that saves small businesses time and brings in customers.",
+  photo: "/images/next-chapter.webp",
+  itemsLabel: "Currently exploring",
   items: [
     { icon: "mdi-aws", title: "AWS Bedrock", text: "Build AI assistants with real data" },
     { icon: "mdi-book-open-page-variant-outline", title: "RAG", text: "Retrieval-augmented generation for accurate answers" },
@@ -110,7 +113,7 @@ export const exploring = {
 };
 
 export const contact = {
-  eyebrow: "Let's connect",
+  eyebrow: "Let's work together",
   heading: ["Have a project", "in mind?"],
-  text: "I'm always open to discussing new ideas, collaborations and opportunities to build something great. Send me a message and I'll get back to you by email or phone.",
+  text: "I'm always open to new ideas, collaborations and opportunities. Send me a message and I'll get back to you by email or phone.",
 };
